@@ -30,10 +30,10 @@ public class Main {
             }
         }
 
-        ConstantColor allGray = new ConstantColor(Vec3.gray);
+        ConstantColor backgroundColor = new ConstantColor(Vec3.gray);
         for (int x = 0; x != width; x++) {
             for (int y = 0; y != height; y++) {
-                image.setPixel(x, y, allGray.pixelColor(x, y));
+                image.setPixel(x, y, backgroundColor.pixelColor(x, y));
             }
         }
 
@@ -83,20 +83,21 @@ public class Main {
         // size in pixels on how wide one box of the checker board is
         // a checker board has 8 squares
         int checkerBoxSize = (squareRadius * 2) / 8;
-        boolean primaryColor = true;
+        ConstantColor checkerColor = new ConstantColor(white);
         for (int x = 0; x != width; x++) {
             for (int y = 0; y != height; y++) {
+                int scaleX = x / 120;
+                int scaleY = y / 120;
+                if((scaleX + scaleY) % 2 == 0){
+                    imageCheckerBoard.setPixel(x, y, checkerColor.pixelColor(x, y));
+                } else {
+                    imageCheckerBoard.setPixel(x, y, backgroundColor.pixelColor(x, y));
+                }
                 /** define left and right space around the square **/
                 if(x > imageMiddleX - squareRadius && x < imageMiddleX + squareRadius) {
                     /** define top and bottom space around the square **/
-                    if(y > imageMiddleY - squareRadius && y < imageMiddleY + squareRadius) {
-                        /** define the checkerboard **/
-                    }
-                } else {
-                    if (primaryColor){
-
-                    } else {
-
+                    if (y > imageMiddleY - squareRadius && y < imageMiddleY + squareRadius) {
+                        imageCheckerBoard.setPixel(x, y, squareColor.pixelColor(x, y));
                     }
                 }
             }
