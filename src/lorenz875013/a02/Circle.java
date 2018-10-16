@@ -1,4 +1,4 @@
-package lorenz875013.a01;
+package lorenz875013.a02;
 
 import cgtools.Vec3;
 
