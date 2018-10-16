@@ -88,16 +88,16 @@ public class Main {
             for (int y = 0; y != height; y++) {
                 int scaleX = x / 120;
                 int scaleY = y / 120;
-                if((scaleX + scaleY) % 2 == 0){
-                    imageCheckerBoard.setPixel(x, y, checkerColor.pixelColor(x, y));
+                /** define left and right space around the square and **/
+                /** define top and bottom space around the square **/
+                if(x > imageMiddleX - squareRadius && x < imageMiddleX + squareRadius &&
+                   y > imageMiddleY - squareRadius && y < imageMiddleY + squareRadius) {
+                    imageCheckerBoard.setPixel(x, y, squareColor.pixelColor(x, y));
                 } else {
-                    imageCheckerBoard.setPixel(x, y, backgroundColor.pixelColor(x, y));
-                }
-                /** define left and right space around the square **/
-                if(x > imageMiddleX - squareRadius && x < imageMiddleX + squareRadius) {
-                    /** define top and bottom space around the square **/
-                    if (y > imageMiddleY - squareRadius && y < imageMiddleY + squareRadius) {
-                        imageCheckerBoard.setPixel(x, y, squareColor.pixelColor(x, y));
+                    if ((scaleX + scaleY) % 2 == 0) {
+                        imageCheckerBoard.setPixel(x, y, checkerColor.pixelColor(x, y));
+                    } else {
+                        imageCheckerBoard.setPixel(x, y, backgroundColor.pixelColor(x, y));
                     }
                 }
             }
