@@ -1,9 +1,9 @@
 package lorenz875013.a01;
 
+import cgtools.Random;
 import cgtools.Vec3;
 import static cgtools.Vec3.*;
 import java.io.IOException;
-import java.util.function.*;
 import lorenz875013.Image;
 
 public class Main {
@@ -14,9 +14,9 @@ public class Main {
         final int width = 3440;
         final int height = 1440;
 
-        /** static color **/
-
         Image image = new Image(width, height);
+
+        /** task 1.4 - draw static color and write image **/
 
         class ConstantColor {
             Vec3 color;
@@ -31,6 +31,7 @@ public class Main {
         }
 
         ConstantColor backgroundColor = new ConstantColor(Vec3.gray);
+
         for (int x = 0; x != width; x++) {
             for (int y = 0; y != height; y++) {
                 image.setPixel(x, y, backgroundColor.pixelColor(x, y));
@@ -39,7 +40,7 @@ public class Main {
 
         write(image, "doc/a01.png");
 
-        /** square image **/
+        /** task 1.5 - draw square in image center **/
 
         Image imageSquare = new Image(width, height);
 
@@ -76,7 +77,7 @@ public class Main {
 
         write(image, "doc/a01-square");
 
-        /** checkerboard **/
+        /** task 1.6 - checkerboard background with square in image center **/
 
         Image imageCheckerBoard = new Image(width, height);
 
@@ -104,6 +105,29 @@ public class Main {
         }
 
         write(imageCheckerBoard, "doc/a01-checkered-background.png");
+
+        /** task 2.1 - random circle creation **/
+
+        Image circleImage = new Image(width, height);
+
+        int circleAmount = 20;
+        Circle[] circles = new Circle[circleAmount];
+        Random rn = new Random(1337);
+
+        for (int i = 0; i < circleAmount; i++){
+            Vec3 circleColor = Vec3.vec3(rn.nextDouble(), rn.nextDouble(), rn.nextDouble());
+            circles[i] = new Circle(rn.nextDouble() * 10, rn.nextInt(), rn.nextInt(), circleColor);
+        }
+
+        for(Circle circle : circles){
+            drawCircle(circle, circleImage);
+        }
+
+    }
+
+    static Image drawCircle(Circle circle, Image image){
+
+        return image;
     }
 
     static void write(Image image, String filename) {
@@ -114,5 +138,4 @@ public class Main {
             System.out.println(String.format("Something went wrong writing: %s: %s", filename, error));
         }
     }
-
 }
