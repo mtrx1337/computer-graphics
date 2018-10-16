@@ -109,6 +109,7 @@ public class Main {
         write(imageCheckerBoard, "doc/a01-checkered-background.png");
 
     }
+
     static void write(Image image, String filename) {
         try {
             image.write(filename);
