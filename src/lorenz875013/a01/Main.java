@@ -4,6 +4,9 @@ import cgtools.Random;
 import cgtools.Vec3;
 import static cgtools.Vec3.*;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
+
 import lorenz875013.Image;
 
 public class Main {
@@ -119,17 +122,22 @@ public class Main {
             circles[i] = new Circle(rn.nextDouble() * 10, rn.nextInt(), rn.nextInt(), circleColor);
         }
 
-        for(Circle circle : circles){
-            drawCircle(circle, circleImage);
+        Arrays.sort(circles);
+
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                for (Circle circle : circles){
+                    // distance from circle center to coordinate
+                    double distx = circle.x - x;
+                    double disty = circle.y - y;
+                    if(circle.radius * circle.radius <= (distx * distx) + disty * disty){
+                        image.setPixel(x, y, circle.color);
+                    }
+                }
+            }
         }
-
+        write(circleImage, "doc/a02-discs.png");
     }
-
-    static Image drawCircle(Circle circle, Image image){
-
-        return image;
-    }
-
     static void write(Image image, String filename) {
         try {
             image.write(filename);
