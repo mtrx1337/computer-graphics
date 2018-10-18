@@ -19,6 +19,7 @@ public class Main {
         Circle[] circles = new Circle[circleAmount];
         Random rn = new Random(1337);
 
+        /** set the circle coordinates and circle size **/
         for (int i = 0; i < circleAmount; i++){
             int ranX = (int) (rn.nextDouble() * width);
             int ranY = (int) (rn.nextDouble() * height);
@@ -33,12 +34,13 @@ public class Main {
             circles[i] = new Circle(ranR, ranX, ranY, circleColor);
         }
 
+        /** put smaller circles on top **/
         Arrays.sort(circles);
 
         for(int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
                 for (Circle circle : circles){
-                    // distance from circle center to coordinate
+                    /** distance from circle center to coordinate **/
                     double distx = Math.abs(circle.x - x);
                     double disty = Math.abs(circle.y - y);
                     if(circle.radius * circle.radius >= (distx * distx) + (disty * disty)) {
