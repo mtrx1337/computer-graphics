@@ -9,8 +9,8 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        final int width = 160;
-        final int height = 90;
+        final int width = 1500;
+        final int height = 500;
         /** task 2.1 - random circle creation **/
 
         Image circleImage = new Image(width, height);
@@ -25,9 +25,9 @@ public class Main {
             int ranY = (int) (rn.nextDouble() * height);
             double ranR;
             if (width < height) {
-                ranR = rn.nextDouble() * width * 10;
+                ranR = rn.nextDouble() * width;
             } else {
-                ranR = rn.nextDouble() * height * 10;
+                ranR = rn.nextDouble() * height;
             }
             Vec3 circleColor = Vec3.vec3(rn.nextDouble(), rn.nextDouble(), rn.nextDouble());
             circles[i] = new Circle(ranR, ranX, ranY, circleColor);
@@ -80,13 +80,13 @@ public class Main {
                             /** distance from circle center to coordinates from above **/
                             double distX = Math.abs(coordRanX - circle.x);
                             double distY = Math.abs(coordRanY - circle.y);
-                            if ((circle.radius * circle.radius) >= (distX * distX) + (distY * distY)) {
+                            if (circle.radius * circle.radius >= (distX * distX) + (distY * distY)) {
                                 /** add the values of the color vector
                                  * to the color values created above
                                  * to later calculate the center value */
-                                r = circle.color.x;
-                                g = circle.color.y;
-                                b = circle.color.z;
+                                r += circle.color.x;
+                                g += circle.color.y;
+                                b += circle.color.z;
                                 /** when a fitting circle  was found, break the loop
                                  * to not add other (below) circles in **/
                                 break;
@@ -100,7 +100,7 @@ public class Main {
                 b = b / samplingMultiplierSquared;
                 /** set final pixel vector and write it to the image **/
                 circleImageAA.setPixel(x, y, new Vec3(r, g, b));
-                //System.out.println(r + " " + g + " " + b);
+                System.out.println(r + " " + g + " " + b);
             }
             progress++;
             System.out.println(progress + " out of " + width);
