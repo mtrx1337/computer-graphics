@@ -20,8 +20,14 @@ public class Main {
         Camera camera = new Camera(camFOV, 10, 10);
         Ray ray = camera.shootRay(10, 10);
 
-        System.out.println(ray.normDirection);
+        /*
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+            }
+        }
+        */
 
+        System.out.println(ray.normDirection);
     }
 
     static void write(Image image, String filename) {
