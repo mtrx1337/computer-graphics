@@ -1,14 +1,15 @@
 package lorenz875013.a03;
 
 import cgtools.Random;
+import cgtools.Vec3;
 import lorenz875013.Image;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        final int width = 1500;
-        final int height = 500;
+        final int width = 720;
+        final int height = 480;
 
         Image image = new Image(width, height);
 
@@ -16,18 +17,13 @@ public class Main {
 
         /** task 3.1 - Camera/Ray Tests **/
 
-        double camFOV = Math.PI /2;
-        Camera camera = new Camera(camFOV, 10, 10);
-        Ray ray = camera.shootRay(10, 10);
 
-        /*
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
+                continue;
             }
         }
-        */
 
-        System.out.println(ray.normDirection);
     }
 
     static void write(Image image, String filename) {
