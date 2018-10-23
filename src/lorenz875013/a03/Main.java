@@ -15,7 +15,13 @@ public class Main {
         Random rn = new Random(1337);
 
         /** task 3.1 - Camera/Ray Tests **/
-        Camera camera = new Camera(Math.toDegrees(Math.PI / 2), width, height);
+
+        double camFOV = Math.PI /2;
+        Camera camera = new Camera(camFOV, 10, 10);
+        Ray ray = camera.shootRay(10, 10);
+
+        System.out.println(ray.normDirection);
+
     }
 
     static void write(Image image, String filename) {

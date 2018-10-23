@@ -14,7 +14,7 @@ public class Camera {
         this.height = height;
     }
 
-    public void shootRay(int x, int y) {
+    public Ray shootRay(int x, int y) {
         /** calculate ray direction:
          *  source https://tramberend.beuth-hochschule.de/lehre/18-ws/bmi-cgg/lectures/03-raytracing/03-raytracing-deck.html#/49 **/
         double a = x - width / 2;
@@ -23,5 +23,8 @@ public class Camera {
         Vec3 direction = new Vec3(a, b, c);
 
         Ray ray = new Ray(origin, direction, 0, Double.POSITIVE_INFINITY);
+        ray.normDirection = Vec3.normalize(direction);
+
+        return ray;
     }
 }
