@@ -77,7 +77,7 @@ public class Main {
             }
         }
 
-        write(image, "doc/a01-square");
+        write(image, "doc/a01-square.png");
 
         /** task 1.6 - checkerboard background with square in image center **/
 
