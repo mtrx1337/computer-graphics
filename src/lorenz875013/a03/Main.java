@@ -33,7 +33,7 @@ public class Main {
         Vec3 origin = new Vec3(0.0,0.0,0.0);
 
         Camera cam = new Camera(Math.PI / 2, width, height);
-        Sphere sphere = new Sphere(new Vec3(0, 0, 3), 2, sphereColor.color);
+        Sphere sphere = new Sphere(new Vec3(0, 0, -3), 1, sphereColor.color);
         Ray ray = new Ray(origin, new Vec3(0, 0, -1), 0, Double.POSITIVE_INFINITY);
 
         for (int x = 0; x < width; x++) {
@@ -44,6 +44,8 @@ public class Main {
                 }
             }
         }
+
+        write(image,"doc/a03-one-sphere.png");
     }
 
     static void write(Image image, String filename) {
