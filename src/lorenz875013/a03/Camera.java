@@ -14,7 +14,7 @@ public class Camera {
         this.height = height;
     }
 
-    public Ray shootRay(int x, int y) {
+    public Ray shootRay(double x, double y) {
         /** calculate ray direction:
          *  source https://tramberend.beuth-hochschule.de/lehre/18-ws/bmi-cgg/lectures/03-raytracing/03-raytracing-deck.html#/49 **/
         double a = x - width / 2;
