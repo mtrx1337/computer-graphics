@@ -23,7 +23,7 @@ public class Camera {
         Vec3 direction = new Vec3(a, b, c);
 
         Ray ray = new Ray(origin, direction, 0, Double.POSITIVE_INFINITY);
-        ray.normDirection = Vec3.normalize(direction);
+        ray.normDirection = direction;
 
         return ray;
     }

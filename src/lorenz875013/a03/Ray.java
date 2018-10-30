@@ -8,9 +8,9 @@ public class Ray {
     double min;
     double max;
 
-    public Ray(Vec3 origin, Vec3 normDir, double min, double max){
+    public Ray(Vec3 origin, Vec3 normDirection, double min, double max){
         this.origin = origin;
-        this.normDirection = normDir;
+        this.normDirection = Vec3.normalize(normDirection);
         this.min = min;
         this.max = max;
     }
