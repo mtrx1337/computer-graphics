@@ -13,9 +13,11 @@ public class Group implements Shape{
         /** find hits on all objects in the scene **/
         ArrayList<Hit> hits = new ArrayList<Hit>();
         for (Shape shape : shapes) {
-            Hit intersect = shape.intersect(r);
-            if(intersect != null){
-                hits.add(intersect);
+            if(shape != null) {
+                Hit intersect = shape.intersect(r);
+                if (intersect != null) {
+                    hits.add(intersect);
+                }
             }
         }
 
