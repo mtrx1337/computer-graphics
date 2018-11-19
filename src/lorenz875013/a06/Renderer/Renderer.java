@@ -8,20 +8,21 @@ import lorenz875013.a06.Shapes.Shape;
 import static cgtools.Vec3.*;
 
 public class Renderer implements Runnable{
-    public int width;
-    public int height;
-    public int fromHeight;
-    public int toHeight;
     private int samples;
     private int maxTraceDepth;
     private Camera camera;
     private Group scene;
+    private int ID;
+    public int width;
+    public int height;
+    public int fromHeight;
+    public int toHeight;
     public Vec3[][] image;
 
     public Renderer(int fromHeight, int toHeight,
                     int width, int height,
                     int samples, int maxTraceDepth,
-                    Camera camera, Group scene){
+                    Camera camera, Group scene, int ID){
         this.fromHeight = fromHeight;
         this.toHeight = toHeight;
         this.width = width;
@@ -31,13 +32,13 @@ public class Renderer implements Runnable{
         this.camera = camera;
         this.image = new Vec3[width][height];
         this.scene = scene;
+        this.ID = ID;
         System.out.println("range: " + fromHeight + " " + toHeight);
     }
 
     @Override
     public void run() {
         int samplesSquared = samples * samples;
-        System.out.println("starting");
         for (int x = 0; x < this.width; x++) {
             for (int y = this.fromHeight; y < this.toHeight; y++) {
                 Vec3 color = new Vec3(0, 0, 0);
@@ -62,9 +63,8 @@ public class Renderer implements Runnable{
                 this.image[x][y] = color;
             }
             // print progress every 10 pixel rows
-            // if (x % 10 == 0) { printStatus(x * 100 / width);}
+            if (x % 10 == 0) { printStatus(x * 100 / width);}
         }
-        System.out.println("released");
     }
 
     Vec3 calculateRadiance(Shape scene, Ray ray, int maxDepth, int currentDepth) {
@@ -81,7 +81,12 @@ public class Renderer implements Runnable{
     }
 
     void printStatus(int percent){
-        String progBar = "[";
+        String threadNumber;
+        if(this.ID < 10){
+            threadNumber = "0" + this.ID;
+        } else { threadNumber = "" + ID; }
+
+        String progBar = "Thread: " + threadNumber + " [";
         for(int i = 0; i < percent; i++){
             progBar = progBar + "X";
         }

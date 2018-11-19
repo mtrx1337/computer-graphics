@@ -18,7 +18,7 @@ public class Main {
     public static final Vec3 origin = new Vec3(0,0,0);
     public static final int samples = 3;
     public static final int traceDepth = 4;
-    public static final int threadAmount = 20;
+    public static final int threadAmount = Runtime.getRuntime().availableProcessors();
     public static final double fieldOfViewAngle = Math.PI / 2;
     public static final Random random = new Random(1337);
 

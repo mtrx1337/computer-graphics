@@ -44,7 +44,8 @@ public class Raytracer {
                     fromHeight, toHeight - 1,
                     width, height,
                     samples, this.maxTraceDepth,
-                    camera, scene);
+                    camera, scene,
+                    i);
 
             Thread renderThread = new Thread(renderer);
 
@@ -76,8 +77,13 @@ public class Raytracer {
         }
 
         long rendertime = System.nanoTime() - timestamp;
-        //convert nanoseconds to milliseconds and cast it to an integer to floor the result
-        System.out.printf("Renderer time: ~" + (int)(rendertime * 0.000001) + "ms \n");
+        /** convert nanoseconds to milliseconds and cast it to an integer to floor the result **/
+        /** then convert milliseconds to seconds and print it **/
+        int timeMS = (int)(rendertime * 0.000001);
+        double timeS = rendertime * 0.001;
+        double timeSrounded = Math.round(timeS * 100d) / 100d;
+        System.out.printf("Renderer time: ~ " + timeMS + " milliseconds \n");
+        System.out.printf("Renderer time: ~ " + timeSrounded + " seconds \n");
     }
 
 
