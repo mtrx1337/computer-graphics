@@ -1,9 +1,8 @@
 package lorenz875013.a06.Materials;
 
 import cgtools.Vec3;
-import lorenz875013.a06.Hit;
-import lorenz875013.a06.Ray;
-import lorenz875013.a06.ReflectionProperties;
+import lorenz875013.a06.Renderer.Hit;
+import lorenz875013.a06.Renderer.Ray;
 
 public class BackgroundMaterial implements Material {
     Vec3 albedo = null;

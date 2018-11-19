@@ -1,11 +1,12 @@
-package lorenz875013.a06;
+package lorenz875013.a06.Materials;
 
 import cgtools.Vec3;
+import lorenz875013.a06.Renderer.Ray;
 
 public class ReflectionProperties {
-    Vec3 albedo;
-    Vec3 emission;
-    Ray ray;
+    public Vec3 albedo;
+    public Vec3 emission;
+    public Ray ray;
 
     /**
      * @param albedo how much light this material sends back with RGB channels

@@ -1,4 +1,4 @@
-package lorenz875013.a06;
+package lorenz875013.a06.Renderer;
 
 import cgtools.Vec3;
 import lorenz875013.a06.Materials.Material;

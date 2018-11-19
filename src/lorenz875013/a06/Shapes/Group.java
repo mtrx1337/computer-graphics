@@ -1,7 +1,7 @@
 package lorenz875013.a06.Shapes;
 
-import lorenz875013.a06.Hit;
-import lorenz875013.a06.Ray;
+import lorenz875013.a06.Renderer.Hit;
+import lorenz875013.a06.Renderer.Ray;
 
 import java.util.ArrayList;
 
