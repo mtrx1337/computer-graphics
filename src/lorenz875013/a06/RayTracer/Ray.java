@@ -1,4 +1,4 @@
-package lorenz875013.a06;
+package lorenz875013.a06.RayTracer;
 
 import cgtools.Vec3;
 

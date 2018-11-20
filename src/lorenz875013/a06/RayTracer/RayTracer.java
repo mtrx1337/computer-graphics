@@ -1,21 +1,23 @@
-package lorenz875013.a06;
+package lorenz875013.a06.RayTracer;
 
-import cgtools.Random;
 import cgtools.Vec3;
 import lorenz875013.Image;
+import lorenz875013.a06.Main;
+import lorenz875013.a06.Materials.ReflectionProperties;
 import lorenz875013.a06.Shapes.Group;
 import lorenz875013.a06.Shapes.Shape;
 
+import java.text.DecimalFormat;
+
 import static cgtools.Vec3.*;
 
-public class Raytracer {
+public class RayTracer {
     int width;
     int height;
     Image image;
     int maxTraceDepth;
-    Random random = new Random();
 
-    public Raytracer(int width, int height, Image image, int maxTraceDepth) {
+    public RayTracer(int width, int height, Image image, int maxTraceDepth) {
         this.width = width;
         this.height = height;
         this.image = image;
@@ -27,7 +29,7 @@ public class Raytracer {
      * @param scene   contains the shapes and objects in the scene
      * @param samples the amount of super- (sub-) sampling that should be done for each pixel
      */
-    void raytrace(Camera camera, Group scene, int samples) {
+    public void raytrace(Camera camera, Group scene, int samples) {
         long timestamp = System.nanoTime();
         int samplesSquared = samples * samples;
         for (int x = 0; x < width; x++) {
@@ -35,12 +37,9 @@ public class Raytracer {
                 Vec3 color = new Vec3(0, 0, 0);
                 for (int j = 0; j < samples; j++) {
                     for (int k = 0; k < samples; k++) {
-                        /** create random values **/
-                        double ranX = random.nextDouble();
-                        double ranY = random.nextDouble();
                         /** calculate new coordinates with randomness **/
-                        double coordRanX = x + (j + ranX) / samples;
-                        double coordRanY = y + (k + ranY) / samples;
+                        double coordRanX = x + (j + Main.random.nextDouble()) / samples;
+                        double coordRanY = y + (k + Main.random.nextDouble()) / samples;
                         Ray ray = camera.shootRay(coordRanX, coordRanY);
                         Hit subPixelHit = scene.intersect(ray);
                         if (subPixelHit != null) {
@@ -56,9 +55,7 @@ public class Raytracer {
             // print progress every 10 pixel rows
             if(x % 10 == 0){ printStatus(x * 100 / width);}
         }
-        long rendertime = System.nanoTime() - timestamp;
-        // convert nanoseconds to milliseconds and cast it to an integer to floor the result
-        System.out.printf("Render time: ~" + (int)(rendertime * 0.000001) + "ms \n");
+        logRenderTime(timestamp);
     }
 
     /**
@@ -71,7 +68,7 @@ public class Raytracer {
      * @param currentDepth current depth of rays sent out
      * @return see radiance above
      */
-    Vec3 calculateRadiance(Shape scene, Ray ray, int maxDepth, int currentDepth) {
+    private Vec3 calculateRadiance(Shape scene, Ray ray, int maxDepth, int currentDepth) {
         if (currentDepth > maxDepth) {
             return black;
         }
@@ -84,7 +81,7 @@ public class Raytracer {
         return properties.emission;
     }
 
-    void printStatus(int percent){
+    private void printStatus(int percent){
         String progBar = "[";
         for(int i = 0; i < percent; i++){
             progBar = progBar + "X";
@@ -96,4 +93,13 @@ public class Raytracer {
         System.out.println(progBar);
     }
 
+    private void logRenderTime(long timestamp){
+        long rendertime = System.nanoTime() - timestamp;
+        /** convert nanoseconds to milliseconds and cast it to an integer to floor the result **/
+        /** then convert milliseconds to seconds and print it **/
+        double timeMS = 1.0 * rendertime / 1000000;
+        double timeS =  1.0 * rendertime / 1000000000;
+        DecimalFormat df = new DecimalFormat("###.###");
+        System.out.printf("Render time: " + df.format(timeMS) + " milliseconds or around " + df.format(timeS) + " seconds.\n");
+    }
 }

@@ -1,9 +1,9 @@
 package lorenz875013.a06.Shapes;
 
 import cgtools.Vec3;
-import lorenz875013.a06.Hit;
+import lorenz875013.a06.RayTracer.Hit;
 import lorenz875013.a06.Materials.Material;
-import lorenz875013.a06.Ray;
+import lorenz875013.a06.RayTracer.Ray;
 
 import static cgtools.Vec3.*;
 

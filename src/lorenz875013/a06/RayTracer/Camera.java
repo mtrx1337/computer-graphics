@@ -1,15 +1,18 @@
-package lorenz875013.a06;
+package lorenz875013.a06.RayTracer;
 
 import cgtools.Vec3;
+import static cgtools.Vec3.*;
 
 public class Camera {
     Vec3 origin;
+    Vec3 direction;
     double fov;
     int width;
     int height;
 
-    public Camera(Vec3 origin, double fov, int width, int height) {
+    public Camera(Vec3 origin, Vec3 direction, double fov, int width, int height) {
         this.origin = origin;
+        this.direction = direction;
         this.fov = fov;
         this.width = width;
         this.height = height;
@@ -21,7 +24,7 @@ public class Camera {
         double a = x - width / 2;
         double b = height / 2 - y;
         double c = 0 - (width / 2) / (Math.tan(fov / 2));
-        Vec3 direction = new Vec3(a, b, c);
+        Vec3 direction = normalize(new Vec3(a, b, c));
 
         Ray ray = new Ray(origin, direction, 0, Double.POSITIVE_INFINITY);
         ray.normDirection = direction;
