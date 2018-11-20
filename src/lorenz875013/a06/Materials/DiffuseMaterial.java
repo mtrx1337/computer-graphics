@@ -18,10 +18,9 @@ public class DiffuseMaterial implements Material {
 
     public ReflectionProperties properties(Ray ray, Hit hit){
         /** create new ray from last intersect / hitpoint but with randomness factor for refraction **/
-        Random random = Main.random;
-        double x = 2 * (random.nextDouble() - 0.5);
-        double y = 2 * (random.nextDouble() - 0.5);
-        double z = 2 * (random.nextDouble() - 0.5);
+        double x = 2 * (Main.random.nextDouble() - 0.5);
+        double y = 2 * (Main.random.nextDouble() - 0.5);
+        double z = 2 * (Main.random.nextDouble() - 0.5);
         Vec3 ranVec = new Vec3(
                 hit.normVec.x + x,
                 hit.normVec.y + y,

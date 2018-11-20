@@ -68,11 +68,10 @@ public class RayTracer {
      * @param currentDepth current depth of rays sent out
      * @return see radiance above
      */
-    private Vec3 calculateRadiance(Shape scene, Ray ray, int maxDepth, int currentDepth) {
+    private Vec3 calculateRadiance(Group scene, Ray ray, int maxDepth, int currentDepth) {
         if (currentDepth > maxDepth) {
             return black;
         }
-        /** if the material does not absorb light completely **/
         Hit secondaryHit = scene.intersect(ray);
         ReflectionProperties properties = secondaryHit.material.properties(ray, secondaryHit);
         if(properties.ray != null) {

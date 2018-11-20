@@ -14,7 +14,7 @@ public class Group implements Shape {
 
     public Hit intersect(Ray r) {
         /** find hits on all objects in the scene **/
-        ArrayList<Hit> hits = new ArrayList<Hit>();
+        ArrayList<Hit> hits = new ArrayList<>();
         for (Shape shape : shapes) {
             if(shape != null) {
                 Hit intersect = shape.intersect(r);

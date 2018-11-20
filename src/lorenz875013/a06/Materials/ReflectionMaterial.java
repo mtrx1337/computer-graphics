@@ -22,12 +22,12 @@ public class ReflectionMaterial implements Material {
 
     public ReflectionProperties properties(Ray ray, Hit hit){
         Random random = Main.random;
-        /** r = d - 2 * n * (n * d)
+        /** r = d - 2 * (n * d) * n
         * r = reflectionNormVec
         * d = ray.normDirection
         * n = hit.normVec
          */
-        Vec3 reflectionNormVec = subtract(ray.normDirection, multiply(multiply(hit.normVec, 2), dotProduct(ray.normDirection, hit.normVec)));
+        Vec3 reflectionNormVec = subtract(ray.normDirection, multiply(multiply(multiply(ray.normDirection, hit.normVec), hit.normVec), 2));
         double x,y,z;
         do {
             x = (random.nextDouble() - 0.5) * roughness * 2;
