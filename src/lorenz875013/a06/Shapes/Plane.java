@@ -22,7 +22,7 @@ public class Plane implements Shape{
         double div = dotProduct(r.normDirection, dirVec);
         if(div != 0){
             /** find dirVecal vector multiplier/scalar t **/
-            double t = (dotProduct(center, dirVec) - dotProduct(r.origin, center)) / div;
+            double t = dotProduct(subtract(this.center, r.origin), this.dirVec) / div;
             if(t > r.min && t < r.max) {
                 /** find hit vector **/
                 Vec3 hitVec = r.pointAt(t);

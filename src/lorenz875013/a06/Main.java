@@ -6,6 +6,7 @@ import lorenz875013.Image;
 import lorenz875013.a06.Materials.BackgroundMaterial;
 import lorenz875013.a06.Materials.DiffuseMaterial;
 import lorenz875013.a06.Materials.ReflectionMaterial;
+import lorenz875013.a06.Materials.GlassMaterial;
 import lorenz875013.a06.RayTracer.Camera;
 import lorenz875013.a06.RayTracer.RayTracer;
 import lorenz875013.a06.Shapes.*;
@@ -17,23 +18,26 @@ public class Main {
     public static final int width = (int) (1920 * resMultiplier);
     public static final int height = (int) (1080 * resMultiplier);
     public static final Vec3 origin = new Vec3(0,0,0);
-    public static final int samples = 4;
+    public static final int samples = 8;
     public static final int traceDepth = 3;
     public static final double fieldOfViewAngle = Math.PI / 2;
-    public static final Random random = new Random(1337);
+    public static final Random random = new Random();
 
     public static void main(String[] args) {
         Camera cam = new Camera(new Vec3(0,0,7), new Vec3(0, 0, 0), fieldOfViewAngle, width, height);
-        //Image image = new Image(width, height);
-        //Group scene = initializeScene();
-        //RayTracer raytracer = new RayTracer(width, height, image, traceDepth);
-        //raytracer.raytrace(cam, scene, samples);
-        //write(image,"doc/a06-mirrors-glass-1.png");
+        Image image = new Image(width, height);
+        Group scene = initializeScene();
+        RayTracer raytracer = new RayTracer(width, height, image, traceDepth);
+        raytracer.raytrace(cam, scene, samples);
+        write(image,"doc/a06-mirrors-glass-1.png");
+        /*
         Image image2 = new Image(width, height);
+Erweitern Sie Ihr Material aus Aufgabe 6.1 um die Möglichkeit angeraute Metalloberflächen darzustellen. Variieren Sie dazu die gespiegelte Strahlrichtung zufällig und durch einen Parameter für Rauhigkeit steuerbar.
         RayTracer raytracer2 = new RayTracer(width, height, image2, traceDepth);
         Group scene2 = initializeScene2();
         raytracer2.raytrace(cam, scene2, samples);
         write(image2,"doc/a06-mirrors-glass-2.png");
+        */
     }
 
     /**
@@ -51,21 +55,26 @@ public class Main {
         DiffuseMaterial sphereDiffusing = new DiffuseMaterial(
                 new Vec3(0.3,0.1,0.1),
                 new Vec3(0,0,0));
+        GlassMaterial sphereGlass = new GlassMaterial(
+                new Vec3(0.5,0.5,0.5),
+                0.05,
+                1.5);
         ReflectionMaterial sphereReflecting = new ReflectionMaterial(
-                new Vec3(0.7,0.7,0.4),
-                new Vec3(0,0,0),
-                0.055);
+                new Vec3(0.9,0.9,0.9),
+                0.05);
 
         shapes[0] = new Background(backgroundMaterial);
         shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
-        shapes[2] = new Sphere(new Vec3(0,-0.5,0), 2, sphereReflecting);
+        shapes[2] = new Sphere(new Vec3(0,-0.5,0), 2, sphereDiffusing);
+        shapes[3] = new Sphere(new Vec3(2,-0.5,2), 1.5, sphereGlass);
+        shapes[4] = new Sphere(new Vec3(-2,-0.5,2), 1.5, sphereGlass);
         int r = 5;
-        int iterator = 3;
+        int iterator = 5;
         for(int angle = 0; angle < 360; angle+=360/16){
             double x = r * Math.cos(angle * Math.PI / 180);
             double y = 1;
             double z = r * Math.sin(angle * Math.PI / 180);
-            shapes[iterator] = new Sphere(new Vec3(x, y, z), 0.5, sphereDiffusing);
+            shapes[iterator] = new Sphere(new Vec3(x, y, z), 0.5, sphereReflecting);
             //System.out.println(x + " " + y + " " + z + "\n");
             iterator++;
         }
@@ -90,7 +99,6 @@ public class Main {
                 new Vec3(0,0,0));
         ReflectionMaterial sphereReflecting = new ReflectionMaterial(
                 new Vec3(0.3,0.3,0.4),
-                new Vec3(0,0,0),
                 0.0);
 
         shapes[0] = new Background(backgroundMaterial);

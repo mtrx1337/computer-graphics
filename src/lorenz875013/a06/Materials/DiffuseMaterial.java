@@ -2,7 +2,6 @@ package lorenz875013.a06.Materials;
 
 import cgtools.Random;
 import cgtools.Vec3;
-import lorenz875013.a06.Main;
 import lorenz875013.a06.RayTracer.Hit;
 import lorenz875013.a06.RayTracer.Ray;
 
@@ -17,10 +16,11 @@ public class DiffuseMaterial implements Material {
     }
 
     public ReflectionProperties properties(Ray ray, Hit hit){
+        Random random = new Random();
         /** create new ray from last intersect / hitpoint but with randomness factor for refraction **/
-        double x = 2 * (Main.random.nextDouble() - 0.5);
-        double y = 2 * (Main.random.nextDouble() - 0.5);
-        double z = 2 * (Main.random.nextDouble() - 0.5);
+        double x = (2 * random.nextDouble()) - 1;
+        double y = (2 * random.nextDouble()) - 1;
+        double z = (2 * random.nextDouble()) - 1;
         Vec3 ranVec = new Vec3(
                 hit.normVec.x + x,
                 hit.normVec.y + y,

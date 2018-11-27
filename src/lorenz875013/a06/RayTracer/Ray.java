@@ -2,6 +2,8 @@ package lorenz875013.a06.RayTracer;
 
 import cgtools.Vec3;
 
+import static cgtools.Vec3.*;
+
 public class Ray {
     public Vec3 origin;
     public Vec3 normDirection;
@@ -16,6 +18,6 @@ public class Ray {
     }
 
     public Vec3 pointAt(double t){
-        return origin.add(Vec3.multiply(t, normDirection));
+        return add(multiply(normDirection, t), origin);
     }
 }

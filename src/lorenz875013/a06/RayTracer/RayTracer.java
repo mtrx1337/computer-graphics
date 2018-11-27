@@ -1,11 +1,10 @@
 package lorenz875013.a06.RayTracer;
 
+import cgtools.Random;
 import cgtools.Vec3;
 import lorenz875013.Image;
-import lorenz875013.a06.Main;
 import lorenz875013.a06.Materials.ReflectionProperties;
 import lorenz875013.a06.Shapes.Group;
-import lorenz875013.a06.Shapes.Shape;
 
 import java.text.DecimalFormat;
 
@@ -30,6 +29,7 @@ public class RayTracer {
      * @param samples the amount of super- (sub-) sampling that should be done for each pixel
      */
     public void raytrace(Camera camera, Group scene, int samples) {
+        Random random = new Random();
         long timestamp = System.nanoTime();
         int samplesSquared = samples * samples;
         for (int x = 0; x < width; x++) {
@@ -38,8 +38,8 @@ public class RayTracer {
                 for (int j = 0; j < samples; j++) {
                     for (int k = 0; k < samples; k++) {
                         /** calculate new coordinates with randomness **/
-                        double coordRanX = x + (j + Main.random.nextDouble()) / samples;
-                        double coordRanY = y + (k + Main.random.nextDouble()) / samples;
+                        double coordRanX = x + (j + random.nextDouble()) / samples;
+                        double coordRanY = y + (k + random.nextDouble()) / samples;
                         Ray ray = camera.shootRay(coordRanX, coordRanY);
                         Hit subPixelHit = scene.intersect(ray);
                         if (subPixelHit != null) {
@@ -72,12 +72,14 @@ public class RayTracer {
         if (currentDepth > maxDepth) {
             return black;
         }
-        Hit secondaryHit = scene.intersect(ray);
-        ReflectionProperties properties = secondaryHit.material.properties(ray, secondaryHit);
+        Hit hit = scene.intersect(ray);
+        ReflectionProperties properties = hit.material.properties(ray, hit);
         if(properties.ray != null) {
-            return add(properties.emission, multiply(properties.albedo, calculateRadiance(scene, properties.ray, maxDepth, ++currentDepth)));
+            Vec3 toReturn = add(properties.emission, multiply(properties.albedo, calculateRadiance(scene, properties.ray, maxDepth, ++currentDepth)));
+            return toReturn;
+        } else {
+            return properties.emission;
         }
-        return properties.emission;
     }
 
     private void printStatus(int percent){
