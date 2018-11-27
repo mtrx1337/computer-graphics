@@ -14,12 +14,12 @@ import lorenz875013.a06.Shapes.*;
 import java.io.IOException;
 
 public class Main {
-    private static final double resMultiplier = 0.5;
+    private static final double resMultiplier = 1;
     public static final int width = (int) (1920 * resMultiplier);
     public static final int height = (int) (1080 * resMultiplier);
     public static final Vec3 origin = new Vec3(0,0,0);
-    public static final int samples = 8;
-    public static final int traceDepth = 3;
+    public static final int samples = 15;
+    public static final int traceDepth = 4;
     public static final double fieldOfViewAngle = Math.PI / 2;
     public static final Random random = new Random();
 
@@ -30,14 +30,11 @@ public class Main {
         RayTracer raytracer = new RayTracer(width, height, image, traceDepth);
         raytracer.raytrace(cam, scene, samples);
         write(image,"doc/a06-mirrors-glass-1.png");
-        /*
         Image image2 = new Image(width, height);
-Erweitern Sie Ihr Material aus Aufgabe 6.1 um die Möglichkeit angeraute Metalloberflächen darzustellen. Variieren Sie dazu die gespiegelte Strahlrichtung zufällig und durch einen Parameter für Rauhigkeit steuerbar.
         RayTracer raytracer2 = new RayTracer(width, height, image2, traceDepth);
         Group scene2 = initializeScene2();
         raytracer2.raytrace(cam, scene2, samples);
         write(image2,"doc/a06-mirrors-glass-2.png");
-        */
     }
 
     /**
@@ -55,28 +52,29 @@ Erweitern Sie Ihr Material aus Aufgabe 6.1 um die Möglichkeit angeraute Metallo
         DiffuseMaterial sphereDiffusing = new DiffuseMaterial(
                 new Vec3(0.3,0.1,0.1),
                 new Vec3(0,0,0));
-        GlassMaterial sphereGlass = new GlassMaterial(
-                new Vec3(0.5,0.5,0.5),
-                0.05,
-                1.5);
         ReflectionMaterial sphereReflecting = new ReflectionMaterial(
                 new Vec3(0.9,0.9,0.9),
-                0.05);
+                0.0);
 
         shapes[0] = new Background(backgroundMaterial);
         shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
         shapes[2] = new Sphere(new Vec3(0,-0.5,0), 2, sphereDiffusing);
-        shapes[3] = new Sphere(new Vec3(2,-0.5,2), 1.5, sphereGlass);
-        shapes[4] = new Sphere(new Vec3(-2,-0.5,2), 1.5, sphereGlass);
+        shapes[3] = new Sphere(new Vec3(2,-0.5,2), 1.5, sphereReflecting);
+        shapes[4] = new Sphere(new Vec3(-2,-0.5,2), 1.5, sphereReflecting);
         int r = 5;
         int iterator = 5;
+        double o = 0;
         for(int angle = 0; angle < 360; angle+=360/16){
+            sphereReflecting = new ReflectionMaterial(
+                    new Vec3(0.9,0.9,0.9),
+                    o);
             double x = r * Math.cos(angle * Math.PI / 180);
             double y = 1;
             double z = r * Math.sin(angle * Math.PI / 180);
             shapes[iterator] = new Sphere(new Vec3(x, y, z), 0.5, sphereReflecting);
             //System.out.println(x + " " + y + " " + z + "\n");
             iterator++;
+            o += 0.005;
         }
         Group scene = new Group(shapes);
         return scene;
