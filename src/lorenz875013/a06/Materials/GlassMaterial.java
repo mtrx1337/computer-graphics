@@ -13,7 +13,6 @@ public class GlassMaterial implements Material {
     double refractionFactor;
     Ray reflectionRay;
 
-    // TODO: roughness for in and outgoing normVecs
     public GlassMaterial(Vec3 color, double roughness, double refractionFactor){
         this.albedo = color;
         this.emission = new Vec3(0,0,0);

@@ -18,7 +18,7 @@ public class Main {
     public static final int width = (int) (1920 * resMultiplier);
     public static final int height = (int) (1080 * resMultiplier);
     public static final Vec3 origin = new Vec3(0,0,0);
-    public static final int samples = 12;
+    public static final int samples = 8;
     public static final int traceDepth = 4;
     public static final double fieldOfViewAngle = Math.PI / 2;
     public static final Random random = new Random();
@@ -57,13 +57,18 @@ public class Main {
         ReflectionMaterial sphereReflecting = new ReflectionMaterial(
                 new Vec3(0.9,0.9,0.9),
                 0.1);
+        GlassMaterial sphereGlass = new GlassMaterial(
+                new Vec3(0.9,0.9,0.9),
+                0.1,
+                0.8
+        );
 
         shapes[0] = new Background(backgroundMaterial);
         shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
-        shapes[2] = new Sphere(new Vec3(0,-0.5,0), 2, sphereDiffusing);
-        shapes[3] = new Sphere(new Vec3(2,-0.5,2), 1.5, sphereReflecting);
-        shapes[4] = new Sphere(new Vec3(-2,-0.5,2), 1.5, sphereReflecting);
-        int r = 5;
+        shapes[2] = new Sphere(new Vec3(0,-0.5,-1), 2, sphereDiffusing);
+        shapes[3] = new Sphere(new Vec3(2,-0.5,1), 1.5, sphereReflecting);
+        shapes[4] = new Sphere(new Vec3(-2,-0.5,1), 1.5, sphereGlass);
+        int r = 4;
         int iterator = 5;
         double o = 0;
         for(int angle = 0; angle < 360; angle+=360/16){
@@ -71,9 +76,9 @@ public class Main {
                     new Vec3(0.9,0.9,0.9),
                     o);
             double x = r * Math.cos(angle * Math.PI / 180);
-            double y = 1;
+            double y = 0.5;
             double z = r * Math.sin(angle * Math.PI / 180);
-            shapes[iterator] = new Sphere(new Vec3(x, y, z), 0.5, sphereReflecting);
+            shapes[iterator] = new Sphere(new Vec3(x, y, z), 0.5, sphereDiffusing);
             //System.out.println(x + " " + y + " " + z + "\n");
             iterator++;
             o += 0.005;
