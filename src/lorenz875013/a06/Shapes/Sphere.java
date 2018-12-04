@@ -21,8 +21,8 @@ public class Sphere implements Shape {
     public Hit intersect(Ray r) {
         /** x vector **/
         double a = dotProduct(r.normDirection, r.normDirection);
-        double b = 2 * dotProduct(subtract(r.origin, this.center), r.normDirection);
-        double c = dotProduct(subtract(r.origin, this.center), subtract(r.origin, center)) - (this.radius * this.radius);
+        double b = 2 * dotProduct(subtract(r.origin, center), r.normDirection);
+        double c = dotProduct(subtract(r.origin, center), subtract(r.origin, center)) - (radius * radius);
 
         /** Vec3 x = new Vec3(a, b, c); **/
 
@@ -32,22 +32,18 @@ public class Sphere implements Shape {
             /** which of the two hits of the sphere is closer? return the closest hit! **/
             double t1 = (-b + Math.sqrt(discriminant)) / (2 * a);
             double t2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-            if (t1 < t2) {
-                t = t1;
-            } else {
-                t = t2;
+            if(t2 > r.min && t2 < r.max) {
+                Vec3 hitVec = r.pointAt(t2);
+                Vec3 hitNormVec = normalize(subtract(hitVec, this.center));
+                Hit hit = new Hit(t2, hitVec, hitNormVec, material);
+                return hit;
+            } else if (t1 > r.min && t1 < r.max) {
+                Vec3 hitVec = r.pointAt(t1);
+                Vec3 hitNormVec = normalize(subtract(hitVec, this.center));
+                Hit hit = new Hit(t1, hitVec, hitNormVec, material);
+                return hit;
             }
-        } else {
-            return null;
         }
-
-        if (t > r.min && t < r.max) {
-            Vec3 hitVec = r.pointAt(t);
-            Vec3 hitNormVec = normalize(subtract(hitVec, this.center));
-            Hit hit = new Hit(t, hitVec, hitNormVec, material);
-            return hit;
-        } else {
-            return null;
-        }
+        return null;
     }
 }

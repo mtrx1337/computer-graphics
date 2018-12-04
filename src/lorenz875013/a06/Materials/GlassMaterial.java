@@ -1,5 +1,6 @@
 package lorenz875013.a06.Materials;
 
+import cgtools.Random;
 import cgtools.Vec3;
 import lorenz875013.a06.RayTracer.Hit;
 import lorenz875013.a06.RayTracer.Ray;
@@ -22,30 +23,30 @@ public class GlassMaterial implements Material {
 
     public ReflectionProperties properties(Ray ray, Hit hit) {
 
-        double ingoingRefr= 1.0;
+        double ingoingRefr = 1.0;
+        double outgoingRefr = this.refractionFactor;
         Vec3 rayNormVec = ray.normDirection;
         Vec3 hitNormVec = hit.normVec;
 
         if (dotProduct(rayNormVec, hitNormVec) > 0) {
             // Strahl kommt von innen
             hitNormVec = multiply(hitNormVec, -1);
-            double temp = ingoingRefr;
-            ingoingRefr = refractionFactor;
-            refractionFactor = temp;
+            ingoingRefr = this.refractionFactor;;
+            outgoingRefr = 1.0;
         }
 
         Vec3 dt;
         // Brechung findet statt
-        if (cgtools.Random.random() > schlick(rayNormVec, hitNormVec, ingoingRefr, refractionFactor)) {
+        if (Random.random() > schlick(rayNormVec, hitNormVec, ingoingRefr, outgoingRefr)) {
             //TransmissionsAnteil
-            dt = refract(rayNormVec, hitNormVec, ingoingRefr, refractionFactor);
+            dt = refract(rayNormVec, hitNormVec, ingoingRefr, outgoingRefr);
         } else {
             // ReflexionsAnteil
             dt = reflect(rayNormVec, hitNormVec);
         }
 
         this.reflectionRay = new Ray(hit.hitVec, dt, 0.0001, Double.POSITIVE_INFINITY);
-        ReflectionProperties properties = new ReflectionProperties(emission, albedo, this.reflectionRay);
+        ReflectionProperties properties = new ReflectionProperties(albedo, emission, this.reflectionRay);
         return properties;
     }
 
@@ -62,8 +63,8 @@ public class GlassMaterial implements Material {
     }
 
     static double schlick(Vec3 d, Vec3 n, double n1, double n2) {
-        double reflexionCoefficient = ((n1 - n2) / (n1 + n2)) * ((n1 - n2) / (n1 + n2));
-        return reflexionCoefficient + (1 - reflexionCoefficient) * Math.pow((1 + dotProduct(d, n)), 5);
+        double reflectionCoefficient = ((n1 - n2) / (n1 + n2)) * ((n1 - n2) / (n1 + n2));
+        return reflectionCoefficient + (1 - reflectionCoefficient) * Math.pow((1 + dotProduct(d, n)), 5);
     }
 
     static Vec3 reflect(Vec3 d, Vec3 n) {

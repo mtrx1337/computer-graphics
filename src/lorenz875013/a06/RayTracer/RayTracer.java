@@ -46,7 +46,7 @@ public class RayTracer {
         for (int i = 0; i < amountOfThreads; i++) {
             final int threadBlockWidth;
             final int core = i;
-            if(i == amountOfThreads){
+            if(i == amountOfThreads - 1){
                 threadBlockWidth = threadBlock * (i + 1);
             } else {
                 threadBlockWidth = threadBlock * (i + 1) + lastBlock;
