@@ -14,11 +14,11 @@ import lorenz875013.a06.Shapes.*;
 import java.io.IOException;
 
 public class Main {
-    private static final double resMultiplier = 1;
+    private static final double resMultiplier = 0.4;
     public static final int width = (int) (1920 * resMultiplier);
     public static final int height = (int) (1080 * resMultiplier);
     public static final Vec3 origin = new Vec3(0,0,0);
-    public static final int samples = 15;
+    public static final int samples = 12;
     public static final int traceDepth = 4;
     public static final double fieldOfViewAngle = Math.PI / 2;
     public static final Random random = new Random();
@@ -30,11 +30,13 @@ public class Main {
         RayTracer raytracer = new RayTracer(width, height, image, traceDepth);
         raytracer.raytrace(cam, scene, samples);
         write(image,"doc/a06-mirrors-glass-1.png");
+        /*
         Image image2 = new Image(width, height);
         RayTracer raytracer2 = new RayTracer(width, height, image2, traceDepth);
         Group scene2 = initializeScene2();
         raytracer2.raytrace(cam, scene2, samples);
         write(image2,"doc/a06-mirrors-glass-2.png");
+        */
     }
 
     /**
@@ -54,7 +56,7 @@ public class Main {
                 new Vec3(0,0,0));
         ReflectionMaterial sphereReflecting = new ReflectionMaterial(
                 new Vec3(0.9,0.9,0.9),
-                0.0);
+                0.1);
 
         shapes[0] = new Background(backgroundMaterial);
         shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);

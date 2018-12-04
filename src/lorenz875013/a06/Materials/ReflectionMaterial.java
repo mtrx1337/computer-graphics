@@ -34,7 +34,7 @@ public class ReflectionMaterial implements Material {
          * n = hit.normVec */
         Vec3 reflectionNormVec = subtract(ray.normDirection, multiply(2, multiply(dotProduct(ray.normDirection, hit.normVec), hit.normVec)));
 
-        Vec3 ranReflectionNormVec = add(reflectionNormVec, new Vec3(x,y,z));
+        Vec3 ranReflectionNormVec = subtract(reflectionNormVec, new Vec3(x,y,z));
 
         if(dotProduct(ranReflectionNormVec, hit.normVec) > 0){
             this.reflectionRay = new Ray(hit.hitVec, ranReflectionNormVec, 0.0001, Double.POSITIVE_INFINITY);

@@ -28,11 +28,11 @@ public class Sphere implements Shape {
 
         double discriminant = (b * b) - (4 * a * c);
         double t;
-        if (discriminant >= 0) {
+        if (discriminant > 0) {
             /** which of the two hits of the sphere is closer? return the closest hit! **/
             double t1 = (-b + Math.sqrt(discriminant)) / (2 * a);
             double t2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-            if (t1 <= t2) {
+            if (t1 < t2) {
                 t = t1;
             } else {
                 t = t2;
