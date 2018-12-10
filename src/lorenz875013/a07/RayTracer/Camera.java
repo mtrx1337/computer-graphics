@@ -1,4 +1,4 @@
-package lorenz875013.a06.RayTracer;
+package lorenz875013.a07.RayTracer;
 
 import cgtools.Mat4;
 import cgtools.Vec3;
@@ -9,12 +9,14 @@ public class Camera {
     double fov;
     int width;
     int height;
+    Mat4 directionMat;
 
-    public Camera(Vec3 origin, Mat4 direction, double fov, int width, int height) {
+    public Camera(Mat4 coords, double fov, int width, int height) {
         this.origin = origin;
         this.fov = fov;
         this.width = width;
         this.height = height;
+        this.directionMat = directionMat;
     }
 
     public Ray genRay(double x, double y) {

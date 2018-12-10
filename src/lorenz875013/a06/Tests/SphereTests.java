@@ -19,10 +19,10 @@ public class SphereTests {
 
     @Test
     public void testIntersect() {
-        Camera cam = new Camera(new Vec3(0,0,7), new Vec3(0, 0, 0), fieldOfViewAngle, 1920, 1080);
-        Ray ray1 = cam.shootRay(1920/2,1080/4);
-        Ray ray2 = cam.shootRay(1920/2,1080/2);
-        Ray ray3 = cam.shootRay(1920/2,1080/4*3);
+        Camera cam = new Camera(new Vec3(0,0,7), null, fieldOfViewAngle, 1920, 1080);
+        Ray ray1 = cam.genRay(1920/2,1080/4);
+        Ray ray2 = cam.genRay(1920/2,1080/2);
+        Ray ray3 = cam.genRay(1920/2,1080/4*3);
         ReflectionMaterial material = new ReflectionMaterial(new Vec3(1,1,1), 0);
         Sphere sphere = new Sphere(new Vec3(0,0,0), 2, material);
         Hit hit1 = (sphere.intersect(ray1));
