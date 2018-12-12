@@ -16,18 +16,18 @@ import lorenz875013.a07.Shapes.Cone;
 import java.io.IOException;
 
 public class Main {
-    private static final double resMultiplier = 0.3;
+    private static final double resMultiplier = 1;
     public static final int width = (int) (1920 * resMultiplier);
     public static final int height = (int) (1080 * resMultiplier);
     public static final Vec3 origin = new Vec3(0,0,0);
-    public static final int samples = 3;
-    public static final int traceDepth = 4;
+    public static final int samples = (int) (20 * resMultiplier);
+    public static final int traceDepth = (int) (10 * resMultiplier);
     public static final double fieldOfViewAngle = Math.PI / 2;
     public static final Random random = new Random();
 
     public static void main(String[] args) {
-        Mat4 transformation = Mat4.rotate(new Vec3(1,0,1), 0);
-        transformation = transformation.multiply(Mat4.translate(new Vec3(0,2,14)));
+        Mat4 transformation = Mat4.rotate(new Vec3(1,0,0), -33);
+        transformation = transformation.multiply(Mat4.translate(new Vec3(0,0,8)));
         Camera cam = new Camera(transformation, fieldOfViewAngle, width, height);
         /*
         Image image = new Image(width, height);
@@ -60,18 +60,18 @@ public class Main {
                 new Vec3(0,0,0));
         ReflectionMaterial sphereReflecting = new ReflectionMaterial(
                 new Vec3(0.9,0.9,0.9),
-                0.0);
+                0.1);
         GlassMaterial sphereGlass = new GlassMaterial(
                 new Vec3(1,1,1),
-                0.1,
+                0.0,
                 1.6
         );
 
         shapes[0] = new Background(backgroundMaterial);
         shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
-        shapes[2] = new Sphere(new Vec3(0,-0.5,-1), 2, sphereDiffusing);
-        shapes[3] = new Sphere(new Vec3(2,-0.5,1), 1.5, sphereReflecting);
-        shapes[4] = new Sphere(new Vec3(-2,-0.5,1), 1.5, sphereGlass);
+        shapes[2] = new Cylinder(new Vec3(0,-2,0), 3, 1, sphereDiffusing);
+        shapes[3] = new Disk(new Vec3(0,-2,0), new Vec3(0,1,0), 1,  sphereDiffusing);
+        shapes[4] = new Disk(new Vec3(0,-2 + 3,0), new Vec3(0,1,0), 1, sphereDiffusing);
         int r = 4;
         int iterator = 5;
         double o = 0;
@@ -82,7 +82,21 @@ public class Main {
             double x = r * Math.cos(angle * Math.PI / 180);
             double y = 0.5;
             double z = r * Math.sin(angle * Math.PI / 180);
-            shapes[iterator] = new Sphere(new Vec3(x, y, z), 0.5, sphereDiffusing);
+            shapes[iterator] = new Sphere(new Vec3(x, y, z), 0.5, sphereReflecting);
+            //System.out.println(x + " " + y + " " + z + "\n");
+            iterator++;
+            o += 0.005;
+        }
+        r = 3;
+        o = 0;
+        double y = 1;
+        for(int angle = 0; angle < 360; angle+=360/16){
+            sphereReflecting = new ReflectionMaterial(
+                    new Vec3(0.9,0.9,0.9),
+                    o);
+            double x = r * Math.cos(angle * Math.PI / 180);
+            double z = r * Math.sin(angle * Math.PI / 180);
+            shapes[iterator] = new Sphere(new Vec3(x, y, z), 0.5, sphereGlass);
             //System.out.println(x + " " + y + " " + z + "\n");
             iterator++;
             o += 0.005;
@@ -97,42 +111,41 @@ public class Main {
      * @return the array of shapes
      */
     private static Group initializeScene2(){
-        int max = 50;
+        int max = 100;
         Shape[] shapes = new Shape[max];
         BackgroundMaterial backgroundMaterial = new BackgroundMaterial(new Vec3(1,1,1));
-        DiffuseMaterial planeMaterial = new DiffuseMaterial(
-                new Vec3(0.0,0.2,0.3),
-                new Vec3(0.0,0.0,0.0));
+        ReflectionMaterial planeMaterial = new ReflectionMaterial(
+                new Vec3(0.8,0.8,0.8),
+                0.1);
         DiffuseMaterial sphereDiffusing = new DiffuseMaterial(
-                new Vec3(0.5,0.1,0.5),
+                new Vec3(0.5,0.1,0.0),
                 new Vec3(0,0,0));
         ReflectionMaterial sphereReflecting = new ReflectionMaterial(
-                new Vec3(0.3,0.3,0.4),
+                new Vec3(0.8,0.8,0.8),
                 0.0);
         GlassMaterial sphereGlass = new GlassMaterial(
                 new Vec3(0.6,0.6,0.6),
-                0.1,
+                0.0,
                 1.6
         );
 
         shapes[0] = new Background(backgroundMaterial);
         shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
         //shapes[2] = new Cone(new Vec3(0, 3, 0), new Vec3(0,-1, 0), Math.PI / 4, sphereDiffusing);
-        shapes[2] =
+        shapes[2] = new Cylinder(new Vec3(0,-3,0), 3, 2, sphereDiffusing);
         //shapes[3] = new Sphere(new Vec3(0,-0.5,0), 3, sphereGlass);
-        shapes[3] = new Group(new Cylinder(new Vec3(0,-0.5,0), 8, 2, sphereDiffusing),
-                              new Disk(new Vec3(0,-0.5,0), new Vec3(0,1,0), 2, sphereDiffusing),
-                              new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, sphereDiffusing));
+        shapes[3] = new Disk(new Vec3(0,-3,0), new Vec3(0,1,0), 2, sphereDiffusing);
+        shapes[4] = new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, sphereDiffusing);
         int r = 5;
-        int iterator = 4;
+        int iterator = 5;
         double x,z;
         double y = -3;
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < 3; i++) {
             for (int angle = 0; angle < 360; angle += 360 / 16) {
                 x = r * Math.cos(angle * Math.PI / 180);
                 y = y + 0.2;
                 z = r * Math.sin(angle * Math.PI / 180);
-                shapes[iterator] = new Sphere(new Vec3(x, y, z), 0.5, sphereDiffusing);
+                shapes[iterator] = new Sphere(new Vec3(x, y, z), 0.5, sphereGlass);
                 //System.out.println(x + " " + y + " " + z + "\n");
                 iterator++;
             }
