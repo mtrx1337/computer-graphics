@@ -43,13 +43,17 @@ public class Cone implements Shape{
          * hitVec = O + t * D
          */
 
+        unitVec = normalize(unitVec);
+        Vec3 CO = subtract(tipPos, ray.origin);
+
         double aToSquare = dotProduct(ray.normDirection, unitVec);
-        double a = aToSquare * aToSquare - Math.pow(Math.cos(tipAngle), 2.0);
+        double a = aToSquare * aToSquare - (Math.pow(Math.cos(tipAngle), 2.0));
 
-        double b = 2.0 * dotProduct(ray.normDirection, unitVec) * dotProduct(multiply(tipPos, ray.origin), unitVec) - dotProduct(ray.normDirection, multiply(tipPos, ray.origin)) * Math.pow(Math.cos(tipAngle), 2);
+        double b = 2.0 * dotProduct(ray.normDirection, unitVec) * dotProduct(CO, unitVec) - (dotProduct(ray.normDirection, CO) * Math.pow(Math.cos(tipAngle), 2));
 
-        double cToSquare = dotProduct(tipPos , ray.origin);
-        double c = Math.pow(dotProduct(multiply(tipPos, ray.origin), unitVec), 2) - cToSquare * cToSquare * Math.pow(Math.cos(tipAngle), 2);
+        double c = Math.pow(dotProduct(CO, unitVec), 2) - (dotProduct(CO, CO) * Math.pow(Math.cos(tipAngle), 2));
+
+        //System.out.println(a + " " + b + " " + c);
 
         /**
          * calc determinant Δ = b2 - 4ac
@@ -59,26 +63,22 @@ public class Cone implements Shape{
          * If Δ > 0Δ > 0, the ray is intersecting the cone twice, at t1 = -b - √Δ / (2 * a) and t2 = -b + √Δ / (2 * a)
          */
 
+
         double determinant = (b * b) - (4 * a * c);
 
         Vec3 hitVec;
-        double t;
         double t1;
         double t2;
-        if (determinant == 0) {
-            t = -b / (2 * a);
-            if (t > ray.min && t < ray.max) {
-                hitVec = ray.pointAt(t);
-                Hit hit = new Hit(t, hitVec, normalize(hitVec), material);
-                return hit;
-            }
-        } else if (determinant > 0) {
+        if (determinant >= 0) {
             t1 = (-b - Math.sqrt(determinant)) / (2 * a);
             t2 = (-b + Math.sqrt(determinant)) / (2 * a);
             if (t1 <= t2) {
                 if (t1 > ray.min && t1 < ray.max) {
                     hitVec = ray.pointAt(t1);
-                    Hit hit = new Hit(t1, hitVec, normalize(hitVec), material);
+                    Vec3 k = subtract(hitVec, tipPos);
+                    Vec3 m = crossProduct(k, multiply(k, new Vec3(1,0,1)));
+                    Vec3 hitNormVec = crossProduct(m, k);
+                    Hit hit = new Hit(t1, hitVec, normalize(subtract(hitNormVec, tipPos)), material);
                     return hit;
                 } else {
                     return null;
@@ -86,8 +86,10 @@ public class Cone implements Shape{
             } else {
                 if (t2 > ray.min && t2 < ray.max) {
                     hitVec = ray.pointAt(t2);
-                    //if (tipAngle < 90 || dotProduct(subtract(hitVec, tipPos), unitVec) > 0) {
-                    Hit hit = new Hit(t2, hitVec, normalize(hitVec), material);
+                    Vec3 k = subtract(hitVec, tipPos);
+                    Vec3 m = crossProduct(k, multiply(k, new Vec3(1,0,1)));
+                    Vec3 hitNormVec = crossProduct(m, k);
+                    Hit hit = new Hit(t2, hitVec, normalize(subtract(hitNormVec, tipPos)), material);
                     return hit;
                 } else {
                     return null;
@@ -96,7 +98,5 @@ public class Cone implements Shape{
         } else {
             return null;
         }
-
-        return null;
     }
 }

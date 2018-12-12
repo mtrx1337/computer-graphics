@@ -108,12 +108,16 @@ public class RayTracer {
             return black;
         }
         Hit hit = scene.intersect(ray);
-        ReflectionProperties properties = hit.material.properties(ray, hit);
-        if (properties.ray != null) {
-            Vec3 toReturn = add(properties.emission, multiply(properties.albedo, calculateRadiance(scene, properties.ray, maxDepth, ++currentDepth)));
-            return toReturn;
+        if (hit != null) {
+            ReflectionProperties properties = hit.material.properties(ray, hit);
+            if (properties.ray != null) {
+                Vec3 toReturn = add(properties.emission, multiply(properties.albedo, calculateRadiance(scene, properties.ray, maxDepth, ++currentDepth)));
+                return toReturn;
+            } else {
+                return properties.emission;
+            }
         } else {
-            return properties.emission;
+            return black;
         }
     }
 

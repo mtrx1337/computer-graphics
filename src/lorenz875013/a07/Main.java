@@ -1,5 +1,6 @@
 package lorenz875013.a07;
 
+import cgtools.Mat4;
 import cgtools.Random;
 import cgtools.Vec3;
 import lorenz875013.Image;
@@ -15,29 +16,31 @@ import lorenz875013.a07.Shapes.Cone;
 import java.io.IOException;
 
 public class Main {
-    private static final double resMultiplier = 0.5;
+    private static final double resMultiplier = 0.3;
     public static final int width = (int) (1920 * resMultiplier);
     public static final int height = (int) (1080 * resMultiplier);
     public static final Vec3 origin = new Vec3(0,0,0);
-    public static final int samples = 8;
-    public static final int traceDepth = 5;
+    public static final int samples = 3;
+    public static final int traceDepth = 4;
     public static final double fieldOfViewAngle = Math.PI / 2;
     public static final Random random = new Random();
 
     public static void main(String[] args) {
-        Camera cam = new Camera(new Vec3(0,0, 8), null, fieldOfViewAngle, width, height);
+        Mat4 transformation = Mat4.rotate(new Vec3(1,0,1), 0);
+        transformation = transformation.multiply(Mat4.translate(new Vec3(0,2,14)));
+        Camera cam = new Camera(transformation, fieldOfViewAngle, width, height);
         /*
         Image image = new Image(width, height);
         Group scene = initializeScene();
         RayTracer raytracer = new RayTracer(width, height, image, traceDepth);
         raytracer.raytrace(cam, scene, samples);
-        write(image,"doc/a06-mirrors-glass-1.png");
-         */
+        write(image,"doc/a07-1.png");
+        */
         Image image2 = new Image(width, height);
         RayTracer raytracer2 = new RayTracer(width, height, image2, traceDepth);
         Group scene2 = initializeScene2();
         raytracer2.raytrace(cam, scene2, samples);
-        write(image2,"doc/a07.png");
+        write(image2,"doc/a07-2.png");
     }
 
     /**
@@ -113,9 +116,13 @@ public class Main {
         );
 
         shapes[0] = new Background(backgroundMaterial);
-        //shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
-        shapes[2] = new Cone(new Vec3(0, 0, 0), new Vec3(0,20, 0), Math.PI / 4, sphereDiffusing);
+        shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
+        //shapes[2] = new Cone(new Vec3(0, 3, 0), new Vec3(0,-1, 0), Math.PI / 4, sphereDiffusing);
+        shapes[2] =
         //shapes[3] = new Sphere(new Vec3(0,-0.5,0), 3, sphereGlass);
+        shapes[3] = new Group(new Cylinder(new Vec3(0,-0.5,0), 8, 2, sphereDiffusing),
+                              new Disk(new Vec3(0,-0.5,0), new Vec3(0,1,0), 2, sphereDiffusing),
+                              new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, sphereDiffusing));
         int r = 5;
         int iterator = 4;
         double x,z;
