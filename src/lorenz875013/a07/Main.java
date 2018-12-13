@@ -118,11 +118,11 @@ public class Main {
         shapes[0] = new Background(backgroundMaterial);
         shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
         //shapes[2] = new Cone(new Vec3(0, 3, 0), new Vec3(0,-1, 0), Math.PI / 4, sphereDiffusing);
-        shapes[2] =
-        //shapes[3] = new Sphere(new Vec3(0,-0.5,0), 3, sphereGlass);
-        shapes[3] = new Group(new Cylinder(new Vec3(0,-0.5,0), 8, 2, sphereDiffusing),
+        //shapes[2] = shapes[3] = new Sphere(new Vec3(0,-0.5,0), 3, sphereGlass);
+        Shape[] cylinder = new Shape[] {new Cylinder(new Vec3(0,-0.5,0), 8, 2, sphereDiffusing),
                               new Disk(new Vec3(0,-0.5,0), new Vec3(0,1,0), 2, sphereDiffusing),
-                              new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, sphereDiffusing));
+                              new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, sphereDiffusing)};
+        shapes[3] = new Group(cylinder);
         int r = 5;
         int iterator = 4;
         double x,z;
