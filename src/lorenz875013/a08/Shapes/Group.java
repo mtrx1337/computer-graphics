@@ -1,5 +1,7 @@
 package lorenz875013.a08.Shapes;
 
+import cgtools.Mat4;
+import cgtools.Vec3;
 import lorenz875013.a08.RayTracer.Hit;
 import lorenz875013.a08.RayTracer.Ray;
 
@@ -9,8 +11,10 @@ import java.util.List;
 
 public class Group implements Shape {
     Shape[] shapes;
+    Mat4 transformation;
 
-    public Group(Shape... shapes){
+    public Group(Mat4 transformation, Shape... shapes){
+        this.transformation = transformation;
         this.shapes = shapes;
     }
 
@@ -28,6 +32,17 @@ public class Group implements Shape {
 
         Collections.sort(hits);
         Hit closestHit = hits.get(0);
+        if(transformation != null){
+            transformHit(closestHit);
+        }
         return closestHit;
+    }
+
+    public Hit transformHit(Hit hit){
+        Vec3 hitVec = hit.hitVec;
+        Vec3 normVec = hit.normVec;
+        Vec3 transHitVec= transformation.transformPoint(hitVec);
+        Vec3 transNormVec = transformation.transformDirection(normVec);
+        return new Hit(hit.dirVecMultiplier, transHitVec, transNormVec, hit.material);
     }
 }
