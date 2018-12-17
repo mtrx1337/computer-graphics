@@ -1,7 +1,7 @@
-package lorenz875013.a07.Materials;
+package lorenz875013.a08.Materials;
 
 import cgtools.Vec3;
-import lorenz875013.a07.RayTracer.Ray;
+import lorenz875013.a08.RayTracer.Ray;
 
 public class ReflectionProperties {
     public Vec3 albedo;

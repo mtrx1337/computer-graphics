@@ -1,7 +1,7 @@
-package lorenz875013.a07.RayTracer;
+package lorenz875013.a08.RayTracer;
 
 import cgtools.Vec3;
-import lorenz875013.a07.Materials.Material;
+import lorenz875013.a08.Materials.Material;
 
 public class Hit implements Comparable<Hit> {
     public double dirVecMultiplier;

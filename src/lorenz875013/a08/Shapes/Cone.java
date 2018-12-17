@@ -1,11 +1,11 @@
-package lorenz875013.a07.Shapes;
+package lorenz875013.a08.Shapes;
 
 import cgtools.Vec3;
 import static cgtools.Vec3.*;
 
-import lorenz875013.a07.Materials.Material;
-import lorenz875013.a07.RayTracer.Hit;
-import lorenz875013.a07.RayTracer.Ray;
+import lorenz875013.a08.Materials.Material;
+import lorenz875013.a08.RayTracer.Hit;
+import lorenz875013.a08.RayTracer.Ray;
 
 public class Cone implements Shape{
     /** should always point from the tip in direction of increasing radius */

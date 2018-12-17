@@ -1,7 +1,7 @@
-package lorenz875013.a07.Materials;
+package lorenz875013.a08.Materials;
 
-import lorenz875013.a07.RayTracer.Hit;
-import lorenz875013.a07.RayTracer.Ray;
+import lorenz875013.a08.RayTracer.Hit;
+import lorenz875013.a08.RayTracer.Ray;
 
 public interface Material {
     ReflectionProperties properties(Ray r, Hit hit);

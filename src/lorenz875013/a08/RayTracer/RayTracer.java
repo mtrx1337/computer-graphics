@@ -1,10 +1,10 @@
-package lorenz875013.a07.RayTracer;
+package lorenz875013.a08.RayTracer;
 
 import cgtools.Random;
 import cgtools.Vec3;
 import lorenz875013.Image;
-import lorenz875013.a07.Materials.ReflectionProperties;
-import lorenz875013.a07.Shapes.Group;
+import lorenz875013.a08.Materials.ReflectionProperties;
+import lorenz875013.a08.Shapes.Group;
 
 import java.text.DecimalFormat;
 
