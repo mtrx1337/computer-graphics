@@ -2,12 +2,16 @@
 
 ## Multithreaded Raytracer written in Java
 
-features:
+Features:
+
 * implemented multiple shapes such as:
     - Spheres
     - Cylinders
     - Disks
     - Cones
+* supports transformations such as:
+    - rotation
+    - moving
 * multicore optimized rendering
 * multiple materials such as:
     - diffuse
@@ -16,5 +20,8 @@ features:
     - textures (todo)
 * skyboxes (todo)
 * bounding boxes (todo)
+* depth of field (todo)
+
+![image](doc/a08-2.png)
 
 <!-- vim: set spelllang=de: -->
