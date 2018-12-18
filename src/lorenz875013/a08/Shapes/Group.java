@@ -1,6 +1,5 @@
 package lorenz875013.a08.Shapes;
 
-import cgtools.Mat4;
 import cgtools.Vec3;
 import static cgtools.Vec3.*;
 import lorenz875013.a08.RayTracer.Hit;

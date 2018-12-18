@@ -17,7 +17,7 @@ import lorenz875013.a08.Shapes.Cone;
 import java.io.IOException;
 
 public class Main {
-    private static final double resMultiplier = 1;
+    private static final double resMultiplier = 0.3;
     public static final int width = (int) (1920 * resMultiplier);
     public static final int height = (int) (1080 * resMultiplier);
     public static final Vec3 origin = new Vec3(0,0,0);
@@ -28,17 +28,16 @@ public class Main {
 
     public static void main(String[] args) {
 
-        /*
         Mat4 camTransMat1 = Mat4.rotate(new Vec3(1,0,0), -33);
-        camTransMat1 = camTransMat1.multiply(Mat4.translate(new Vec3(0,0,8)));
+        camTransMat1 = camTransMat1.multiply(Mat4.translate(new Vec3(0,0,16)));
         Camera cam1 = new Camera(new Transformation(camTransMat1), fieldOfViewAngle, width, height);
         Image image1 = new Image(width, height);
         Group scene = initializeScene();
         RayTracer raytracer = new RayTracer(width, height, image1, traceDepth);
         raytracer.raytrace(cam1, scene, samples);
         write(image1,"doc/a08-1.png");
-        */
 
+        /*
         Mat4 camTransMat2 = Mat4.rotate(new Vec3(1,0,0), -33);
         camTransMat2 = camTransMat2.multiply(Mat4.translate(new Vec3(0,0,8)));
         Camera cam2 = new Camera(new Transformation(camTransMat2), fieldOfViewAngle, width, height);
@@ -47,6 +46,7 @@ public class Main {
         Group scene2 = initializeScene2();
         raytracer2.raytrace(cam2, scene2, samples);
         write(image2,"doc/a08-2.png");
+        */
     }
 
     /**
@@ -56,7 +56,7 @@ public class Main {
      */
     private static Group initializeScene(){
 
-        Mat4 sceneTransformation = Mat4.rotate(new Vec3(1,0,0), -33);
+        Mat4 sceneTransformation = Mat4.rotate(new Vec3(0,0,0), 0);
         sceneTransformation = sceneTransformation.multiply(Mat4.translate(new Vec3(0,0,0)));
 
         int max = 50;
@@ -65,10 +65,10 @@ public class Main {
         DiffuseMaterial planeMaterial = new DiffuseMaterial(
                 new Vec3(0.0,0.2,0.3),
                 new Vec3(0.0,0.0,0.0));
-        DiffuseMaterial diffuseMaterial = new DiffuseMaterial(
+        DiffuseMaterial bodyMaterial = new DiffuseMaterial(
                 new Vec3(0.3,0.1,0.1),
                 new Vec3(0,0,0));
-        ReflectionMaterial reflectionMaterial = new ReflectionMaterial(
+        ReflectionMaterial eyeMaterial = new ReflectionMaterial(
                 new Vec3(0.9,0.9,0.9),
                 0.1);
         GlassMaterial glassMaterial = new GlassMaterial(
@@ -77,47 +77,80 @@ public class Main {
                 1.6
         );
 
-        Mat4 crossTrans = Mat4.rotate(new Vec3(1,1,1), -33);
-        crossTrans = crossTrans.multiply(Mat4.translate(new Vec3(-6,0,0)));
+        shapes[0] = new Background(backgroundMaterial);
+        shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
 
-        double radius = 0.4;
-        shapes[0] = new Group(new Transformation(crossTrans),
-                new Sphere(new Vec3(0,0,0),
-                        radius,
-                        diffuseMaterial),
-                new Sphere(new Vec3(-1,0,0),
-                        radius,
-                        diffuseMaterial),
-                new Sphere(new Vec3(-2,0,0),
-                        radius,
-                        diffuseMaterial),
-                new Sphere(new Vec3(0,1,0),
-                        radius,
-                        diffuseMaterial),
-                new Sphere(new Vec3(0,2,0),
-                        radius,
-                        diffuseMaterial),
-                new Sphere(new Vec3(0,-1,0),
-                        radius,
-                        diffuseMaterial),
-                new Sphere(new Vec3(0,-2,0),
-                        radius,
-                        diffuseMaterial),
-                new Sphere(new Vec3(1,0,0),
-                        radius,
-                        diffuseMaterial),
-                new Sphere(new Vec3(2,0,0),
-                        radius,
-                        diffuseMaterial));
-        Mat4 cylinderTransformationMat =  Mat4.rotate(new Vec3(1,1,1), -33);
+        /** main body */
+        Mat4 cylinderTransformationMat =  Mat4.rotate(new Vec3(0,1,0), -90);
+        cylinderTransformationMat =  cylinderTransformationMat.rotate(new Vec3(0,0,1), 45);
         cylinderTransformationMat = cylinderTransformationMat.multiply(Mat4.translate(new Vec3(0,4,0)));
-        shapes[1] = new Group(new Transformation(cylinderTransformationMat),
-                new Cylinder(new Vec3(0,0,0), 4, 2, reflectionMaterial),
-                new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, glassMaterial),
-                new Disk(new Vec3(0,4,0), new Vec3(0,1,0), 2, glassMaterial));
+        shapes[2] = new Group(new Transformation(cylinderTransformationMat),
+                new Cylinder(new Vec3(0,0,0), 4, 2, bodyMaterial),
+                new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, bodyMaterial),
+                new Disk(new Vec3(0,4,0), new Vec3(0,1,0), 2, bodyMaterial));
 
-        shapes[2] = new Background(backgroundMaterial);
-        shapes[3] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
+        Mat4 legTrans =  Mat4.rotate(new Vec3(0,0,0), 0);
+        legTrans =  legTrans.rotate(new Vec3(0,0,0), 0);
+        legTrans = legTrans.multiply(Mat4.translate(new Vec3(0,-3,0)));
+        /** 4 legs */
+        shapes[3] = new Group(new Transformation(legTrans),
+                new Group(new Transformation(cylinderTransformationMat),
+                    new Cylinder(new Vec3(1,0,2), 4, 0.3, bodyMaterial),
+                    new Disk(new Vec3(1,0,2), new Vec3(0,1,0), 0.3, bodyMaterial),
+                    new Disk(new Vec3(1,4,2), new Vec3(0,1,0), 0.3, bodyMaterial)),
+
+                new Group(new Transformation(cylinderTransformationMat),
+                    new Cylinder(new Vec3(-1,0,2), 4, 0.3, bodyMaterial),
+                    new Disk(new Vec3(-1,0,2), new Vec3(0,1,0), 0.3, bodyMaterial),
+                    new Disk(new Vec3(-1,4,2), new Vec3(0,1,0), 0.3, bodyMaterial)),
+
+                new Group(new Transformation(cylinderTransformationMat),
+                        new Cylinder(new Vec3(-1,0,-2), 4, 0.3, bodyMaterial),
+                        new Disk(new Vec3(-1,0,-2), new Vec3(0,1,0), 0.3, bodyMaterial),
+                        new Disk(new Vec3(-1,4,-2), new Vec3(0,1,0), 0.3, bodyMaterial)),
+
+                new Group(new Transformation(cylinderTransformationMat),
+                        new Cylinder(new Vec3(1,0,-2), 4, 0.3, bodyMaterial),
+                        new Disk(new Vec3(1,0,-2), new Vec3(0,1,0), 0.3, bodyMaterial),
+                        new Disk(new Vec3(1,4,-2), new Vec3(0,1,0), 0.3, bodyMaterial))
+        );
+
+        Mat4 headTrans =  Mat4.rotate(new Vec3(0,1,0), -90);
+        headTrans =  headTrans.rotate(new Vec3(0,0,1), 45);
+        headTrans = headTrans.multiply(Mat4.translate(new Vec3(0,4,0)));
+        shapes[4] = new Group(new Transformation(headTrans),
+                new Sphere(new Vec3(0,0,0), 1.5, bodyMaterial),
+                new Sphere(new Vec3(-1,0,-2), 0.4, bodyMaterial),
+                new Sphere(new Vec3(1,0,-2), 0.4, bodyMaterial),
+                new Sphere(new Vec3(-1,1,-2), 0.4, bodyMaterial),
+                new Sphere(new Vec3(1,1,-2), 0.4, bodyMaterial));
+
+
+        Mat4 cylinderTransformationMat1 =  Mat4.rotate(new Vec3(0,0,0), 0);
+        cylinderTransformationMat1 =  cylinderTransformationMat1.rotate(new Vec3(0,0,0), 0);
+        cylinderTransformationMat1 = cylinderTransformationMat1.multiply(Mat4.translate(new Vec3(0,0,0)));
+
+        Mat4 cylinderTransformationMat2 =  Mat4.rotate(new Vec3(0,0,0), 0);
+        cylinderTransformationMat2 =  cylinderTransformationMat2.rotate(new Vec3(0,0,0), 0);
+        cylinderTransformationMat2 = cylinderTransformationMat2.multiply(Mat4.translate(new Vec3(0,0,0)));
+
+        Mat4 tailTrans =  Mat4.rotate(new Vec3(0,0,0), 0);
+        tailTrans =  tailTrans.rotate(new Vec3(0,0,0), 0);
+        tailTrans = tailTrans.multiply(Mat4.translate(new Vec3(3,0,-3)));
+
+        /** 4 legs */
+        shapes[5] = new Group(new Transformation(tailTrans),
+                new Group(new Transformation(cylinderTransformationMat1),
+                        new Cylinder(new Vec3(0,0,0), 4, 2, bodyMaterial),
+                        new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, bodyMaterial),
+                        new Disk(new Vec3(0,4,0), new Vec3(0,1,0), 2, bodyMaterial)),
+
+                new Group(new Transformation(cylinderTransformationMat2),
+                        new Cylinder(new Vec3(0,0,0), 4, 2, bodyMaterial),
+                        new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, bodyMaterial),
+                        new Disk(new Vec3(0,4,0), new Vec3(0,1,0), 2, bodyMaterial))
+        );
+
         Group scene = new Group(new Transformation(sceneTransformation), shapes);
         return scene;
     }
