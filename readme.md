@@ -2,7 +2,7 @@
 
 ## Multithreaded Raytracer written in Java
 
-Features:
+### Features:
 
 * implemented multiple shapes such as:
     - Spheres
@@ -21,6 +21,10 @@ Features:
 * skyboxes (todo)
 * bounding boxes (todo)
 * depth of field (todo)
+
+### Renders
+
+![image](doc/a08-1.png)
 
 ![image](doc/a08-2.png)
 
