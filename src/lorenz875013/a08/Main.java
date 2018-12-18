@@ -1,22 +1,22 @@
-package lorenz875013.a07;
+package lorenz875013.a08;
 
 import cgtools.Mat4;
 import cgtools.Random;
 import cgtools.Vec3;
 import lorenz875013.Image;
-import lorenz875013.a07.Materials.BackgroundMaterial;
-import lorenz875013.a07.Materials.DiffuseMaterial;
-import lorenz875013.a07.Materials.ReflectionMaterial;
-import lorenz875013.a07.Materials.GlassMaterial;
-import lorenz875013.a07.RayTracer.Camera;
-import lorenz875013.a07.RayTracer.RayTracer;
-import lorenz875013.a07.Shapes.*;
-import lorenz875013.a07.Shapes.Cone;
+import lorenz875013.a08.Materials.BackgroundMaterial;
+import lorenz875013.a08.Materials.DiffuseMaterial;
+import lorenz875013.a08.Materials.ReflectionMaterial;
+import lorenz875013.a08.Materials.GlassMaterial;
+import lorenz875013.a08.RayTracer.Camera;
+import lorenz875013.a08.RayTracer.RayTracer;
+import lorenz875013.a08.Shapes.*;
+import lorenz875013.a08.Shapes.Cone;
 
 import java.io.IOException;
 
 public class Main {
-    private static final double resMultiplier = 1;
+    private static final double resMultiplier = 0.5;
     public static final int width = (int) (1920 * resMultiplier);
     public static final int height = (int) (1080 * resMultiplier);
     public static final Vec3 origin = new Vec3(0,0,0);
@@ -29,18 +29,16 @@ public class Main {
         Mat4 transformation = Mat4.rotate(new Vec3(1,0,0), -33);
         transformation = transformation.multiply(Mat4.translate(new Vec3(0,0,8)));
         Camera cam = new Camera(transformation, fieldOfViewAngle, width, height);
-        /*
         Image image = new Image(width, height);
         Group scene = initializeScene();
         RayTracer raytracer = new RayTracer(width, height, image, traceDepth);
         raytracer.raytrace(cam, scene, samples);
-        write(image,"doc/a07-1.png");
-        */
+        write(image,"doc/a08-1.png");
         Image image2 = new Image(width, height);
         RayTracer raytracer2 = new RayTracer(width, height, image2, traceDepth);
         Group scene2 = initializeScene2();
         raytracer2.raytrace(cam, scene2, samples);
-        write(image2,"doc/a07-2.png");
+        write(image2,"doc/a08-2.png");
     }
 
     /**
@@ -132,11 +130,10 @@ public class Main {
         shapes[0] = new Background(backgroundMaterial);
         shapes[1] = new Plane(new Vec3(0,-3,0), new Vec3(0,1,0), planeMaterial);
         //shapes[2] = new Cone(new Vec3(0, 3, 0), new Vec3(0,-1, 0), Math.PI / 4, sphereDiffusing);
-        //shapes[2] = shapes[3] = new Sphere(new Vec3(0,-0.5,0), 3, sphereGlass);
-        Shape[] cylinder = new Shape[] {new Cylinder(new Vec3(0,-0.5,0), 8, 2, sphereDiffusing),
-                              new Disk(new Vec3(0,-0.5,0), new Vec3(0,1,0), 2, sphereDiffusing),
-                              new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, sphereDiffusing)};
-        shapes[3] = new Group(cylinder);
+        shapes[2] = new Cylinder(new Vec3(0,-3,0), 3, 2, sphereDiffusing);
+        //shapes[3] = new Sphere(new Vec3(0,-0.5,0), 3, sphereGlass);
+        shapes[3] = new Disk(new Vec3(0,-3,0), new Vec3(0,1,0), 2, sphereDiffusing);
+        shapes[4] = new Disk(new Vec3(0,0,0), new Vec3(0,1,0), 2, sphereDiffusing);
         int r = 5;
         int iterator = 5;
         double x,z;
