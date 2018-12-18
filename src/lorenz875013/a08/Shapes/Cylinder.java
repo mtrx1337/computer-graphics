@@ -33,8 +33,7 @@ public class Cylinder implements Shape {
         /** Vec3 x = new Vec3(a, b, c); **/
 
         double discriminant = (b * b) - (4 * a * c);
-        double t;
-        if (discriminant > 0) {
+        if (discriminant >= 0) {
             /** which of the two hits of the sphere is closer? return the closest hit! **/
             double t1 = (-b + Math.sqrt(discriminant)) / (2 * a);
             double t2 = (-b - Math.sqrt(discriminant)) / (2 * a);
@@ -43,7 +42,9 @@ public class Cylinder implements Shape {
                 if(hitVec.y > center.y + height || hitVec.y < center.y){
                     return null;
                 } else {
-                    Vec3 hitNormVec = normalize(subtract(hitVec, this.center));
+                    // center = center aber mit center.y = hit.y
+                    Vec3 cylinderCenter = new Vec3(center.x, hitVec.y, center.z);
+                    Vec3 hitNormVec = normalize(subtract(hitVec, cylinderCenter));
                     Hit hit = new Hit(t2, hitVec, hitNormVec, material);
                     return hit;
                 }
@@ -52,19 +53,14 @@ public class Cylinder implements Shape {
                 if(hitVec.y > center.y + height || hitVec.y < center.y){
                     return null;
                 } else {
-                    Vec3 hitNormVec = normalize(subtract(hitVec, this.center));
+                    // center = center aber mit center.y = hit.y
+                    Vec3 cylinderCenter = new Vec3(center.x, hitVec.y, center.z);
+                    Vec3 hitNormVec = normalize(subtract(hitVec, cylinderCenter));
                     Hit hit = new Hit(t1, hitVec, hitNormVec, material);
                     return hit;
                 }
             }
         }
         return null;
-
-        /*
-        wenn hit y > höhe && hit y < 0
-        dann hitVec = null
-        wenn hit y < -höhe && hit y > 0
-        dann hitVec = null
-         */
     }
 }
