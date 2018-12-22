@@ -27,4 +27,4 @@ threads: 1
 
 processor: Ryzen 2700X @ 4Ghz with 1 thread
 
----> rendertime: 
+---> rendertime: 1.2 hours
