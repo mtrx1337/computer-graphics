@@ -35,7 +35,8 @@ public class RayTracer {
     public void raytrace(Camera camera, Group scene, int samples) {
         Random random = new Random();
 
-        int amountOfThreads = Runtime.getRuntime().availableProcessors();
+        int amountOfThreads = 1;
+        //int amountOfThreads = Runtime.getRuntime().availableProcessors();
         System.out.println("Setting up " + amountOfThreads + " Threads");
         Thread[] threads = new Thread[amountOfThreads];
 

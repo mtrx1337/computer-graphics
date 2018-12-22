@@ -16,7 +16,7 @@ import lorenz875013.a08.Shapes.*;
 import java.io.IOException;
 
 public class Main {
-  private static final double resMultiplier = 0.8;
+  private static final double resMultiplier = 0.4;
     public static final int width = (int) (1920 * resMultiplier);
     public static final int height = (int) (1080 * resMultiplier);
     public static final Vec3 origin = new Vec3(0,0,0);
@@ -27,6 +27,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        /*
         Mat4 camTransMat1 = Mat4.rotate(new Vec3(1,0,0), 0);
         camTransMat1 = camTransMat1.multiply(Mat4.translate(new Vec3(0,0,8)));
         Camera cam1 = new Camera(new Transformation(camTransMat1), fieldOfViewAngle, width, height);
@@ -35,6 +36,7 @@ public class Main {
         RayTracer raytracer = new RayTracer(width, height, image1, traceDepth);
         raytracer.raytrace(cam1, scene, samples);
         write(image1,"doc/a08-1.png");
+        */
 
         Mat4 camTransMat2 = Mat4.rotate(new Vec3(1,0,0), -35);
         camTransMat2 = camTransMat2.multiply(Mat4.translate(new Vec3(0,0,6)));

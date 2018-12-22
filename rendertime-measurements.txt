@@ -1,0 +1,30 @@
+processor: Ryzen 2700X @ 4Ghz with 16 cores
+shapes: ~6000
+
+resolution: 1920x1080 * 0.8
+samples: 20 * 0.8
+trace depth: 10 * 0.8
+threads: 16
+
+---> rendertime: 2.5 hours
+(would probably take a week doing that single threaded)
+
+
+
+resolution: 1920x1080 * 0.4
+samples: 20 * 0.4
+trace depth: 10 * 0.4
+threads: 16
+
+---> rendertime: 9 minutes
+
+
+
+resolution: 1920x1080 * 0.4
+samples: 20 * 0.4
+trace depth: 10 * 0.4
+threads: 1
+
+processor: Ryzen 2700X @ 4Ghz with 1 thread
+
+---> rendertime: 
